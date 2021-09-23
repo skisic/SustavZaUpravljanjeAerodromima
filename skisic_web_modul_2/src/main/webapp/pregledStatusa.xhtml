@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Pregled statusa</title>
+    </h:head>
+    <h:body>
+        Pregled statusa
+        <h:link outcome="index" value="Početna"/><br/>
+        <h:commandLink action="#{prijava.odjaviSe()}" value="Odjava" rendered="#{prijava.prijavljen}"/><br/>
+        <h:form>
+            Status poslužitelja: <br/>
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel for="trenutniStatus" value="Trenutni status: ">#{pregledStatusa.status}</h:outputLabel>
+                <h:commandButton value=" Osvježi status " action="#{pregledStatusa.provjeriTrenutnoStanje()}"/>
+
+                <h:commandButton value=" Pauziraj preuzimanje " action="#{pregledStatusa.pauzirajPreuzimanje()}"/><br/>
+
+                <h:commandButton value=" Nastavi preuzimanje " action="#{pregledStatusa.nastaviPreuzimanje()}"/><br/>
+
+                <h:commandButton value=" Završi s radom " action="#{pregledStatusa.zavrsiRad()}"/><br/>
+            </h:panelGrid>
+
+            <br/><br/>
+            Status grupe:
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel for="trenutniStatusGrupe" value="Trenutni status: ">#{pregledStatusa.statusGrupe}</h:outputLabel>
+                <h:commandButton value=" Provjeri status " action="#{pregledStatusa.dajStanjeGrupe()}"/>
+                
+                <h:commandButton value=" Prijavi grupu " action="#{pregledStatusa.registrirajGrupu()}"/><br/>
+
+                <h:commandButton value=" Odjavi grupu " action="#{pregledStatusa.deregistrirajGrupu()}"/><br/>
+                
+                <h:commandButton value=" Aktiviraj grupu " action="#{pregledStatusa.aktivirajGrupu()}"/><br/>
+                
+                <h:commandButton value=" Blokiraj grupu " action="#{pregledStatusa.blokirajGrupu()}"/><br/>
+                
+                <h:inputText id="aerodrom" value="#{pregledStatusa.aerodromi}" label="icao1, icao2, icao3..."/>
+                <h:commandButton value=" Dodaj aerodrome " action="#{pregledStatusa.dodajAerodromeGrupi()}"/><br/>
+            </h:panelGrid>
+
+        </h:form>
+    </h:body>
+</html>
+

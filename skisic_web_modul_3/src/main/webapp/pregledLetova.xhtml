@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./predlozak.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="naslov">
+        #{p['pregledLetova.naslov']}
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>#{p['pregledLetova.naslov']}</h1><br/>
+        <h:form id="form1">
+            <p:dataTable id="tablica1" var="a" value="#{pregledLetova.dajAerodromeKorisnika()}"  rows="5" 
+                         selectionMode="single" selection="#{pregledLetova.odabraniAerodrom}" rowKey="#{a.icao}"
+                         paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         rowsPerPageTemplate="5,10,30">
+                <p:column>
+                    <f:facet name="header">#{p['pregledAerodroma.ident']}</f:facet>#{a.icao}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">#{p['pregledAerodroma.naziv']}</f:facet>#{a.naziv}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">#{p['pregledAerodroma.iso']}</f:facet>#{a.drzava}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">#{p['pregledAerodroma.lokacija']}</f:facet>#{a.lokacija.longitude}, #{a.lokacija.latitude}
+                </p:column>
+                <f:facet name="footer">
+
+                    <p:outputLabel><h1>#{p['pregledLetova.letoviAvionaAerodrom']}</h1></p:outputLabel><br/>
+                    <p:outputLabel>#{p['pregledLetova.odVremena']}: </p:outputLabel>&nbsp;
+                    <p:inputText id="dat1" value="#{pregledLetova.datumOd}"/>&nbsp;
+                    <p:outputLabel>#{p['pregledLetova.doVremena']}: </p:outputLabel>&nbsp;
+                    <p:inputText id="dat2" value="#{pregledLetova.datumDo}"/>&nbsp;
+
+                    <p:commandButton process="tablica1" update=":form2:tablica2" action="#{pregledLetova.dajLetoveAvionaAerodrom()}" value="#{p['pregledLetova.pretrazi']}"/>
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+        <h:form id="form2">
+            <p:dataTable id="tablica2" value="#{pregledLetova.letovi}" var="l" rows="10"
+                         selectionMode="single" selection="#{pregledLetova.odabraniAvion}" rowKey="#{l.icao24}"
+                         paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         rowsPerPageTemplate="5,10,30">
+                <p:column>
+                    <f:facet name="header">#{p['pregledLetova.icao24']}</f:facet>#{l.icao24}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">#{p['pregledLetova.callsign']}</f:facet>#{l.callsign}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">#{p['pregledLetova.firstseen']}</f:facet>#{pregledLetova.pretvoriLongUDatum(l.firstSeen)}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">#{p['pregledLetova.lastseen']}</f:facet>#{pregledLetova.pretvoriLongUDatum(l.lastSeen)}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">#{p['pregledLetova.arrival']}</f:facet>#{l.estArrivalAirport}
+                </p:column>
+                <f:facet name="footer">
+                    <p:commandButton process="tablica2" update=":form3:tablica3" action="#{pregledLetova.dajLetoveAviona()}" value="#{p['pregledLetova.pretrazi']}"/>
+                </f:facet>
+            </p:dataTable>
+
+        </h:form>
+        <center><h1>#{p['pregledLetova.letoviAviona']}</h1></center>
+        <h:form id="form3">
+            <p:dataTable id="tablica3" value="#{pregledLetova.letovi2}" var="l" rows="10"
+                         paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         rowsPerPageTemplate="5,10,30">
+                <p:column>
+                    <f:facet name="header">#{p['pregledLetova.icao24']}</f:facet>#{l.icao24}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">#{p['pregledLetova.callsign']}</f:facet>#{l.callsign}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">#{p['pregledLetova.firstseen']}</f:facet>#{pregledLetova.pretvoriLongUDatum(l.firstSeen)}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">#{p['pregledLetova.lastseen']}</f:facet>#{pregledLetova.pretvoriLongUDatum(l.lastSeen)}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">#{p['pregledLetova.departure']}</f:facet>#{l.estDepartureAirport}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">#{p['pregledLetova.arrival']}</f:facet>#{l.estArrivalAirport}
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

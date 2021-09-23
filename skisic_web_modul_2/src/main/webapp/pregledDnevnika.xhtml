@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Pregled dnevnika</title>
+    </h:head>
+    <h:body>
+        Pregled dnevnika
+        <h:link outcome="index" value="Početna"/><br/>
+        <h:commandLink action="#{prijava.odjaviSe()}" value="Odjava" rendered="#{prijava.prijavljen}"/><br/>
+         <h:form>
+             <h:outputLabel>Korisničko ime: #{prijava.korisnik}</h:outputLabel><br/>
+             <p:dataTable value="#{pregledDnevnika.prikaziDnevnik()}" var="d" rows="#{pregledDnevnika.stranicenje}" paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink}" 
+                         rowsPerPageTemplate="5,10,30,100">
+                <p:column>
+                    <f:facet name="header">ID</f:facet>#{d.id}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">Zahtjev</f:facet>#{d.zahtjev}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">Vrijeme</f:facet>#{d.vrijeme}
+                </p:column>
+            </p:dataTable>
+            <br/><br/>
+            
+        </h:form>
+    </h:body>
+</html>
+
